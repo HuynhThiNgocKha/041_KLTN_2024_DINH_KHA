@@ -1,0 +1,72 @@
+/* App container styling */
+.app-container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  /* Navigation bar */
+  .navbar {
+    background-color: #00a8a8;
+    padding: 10px;
+  }
+  
+  .navbar button {
+    background-color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .navbar button:hover {
+    background-color: #008080;
+    color: white;
+  }
+  
+  /* Title section */
+  .title-section {
+    background-image: url('https://example.com/building-background.jpg');
+    background-size: cover;
+    color: white;
+    padding: 40px;
+  }
+  
+  .title-section h1 {
+    font-size: 48px;
+    margin: 0;
+  }
+  
+  /* Grid styling */
+  .building-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .building-card {
+    position: relative;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .building-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .building-id {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 168, 168, 0.8);
+    color: white;
+    font-size: 24px;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  

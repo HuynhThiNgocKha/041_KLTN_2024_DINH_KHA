@@ -3,56 +3,35 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, ActivityIndicator, Pressable } from 'react-native';
 import axios from 'axios';
 
-const Login = ({ navigation }) => {
-  const [name, setUsername] = useState("");
+const Register = ({ navigation }) => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
 
-  const handleSubmit = () => {
-    if (!name ||!email ||!password) {
-      setError('Vui lòng điền đầy đủ thông tin');
-      return;
-    }
-
-    if(name!=data.name) {
-      setError('Tên đăng nhập không đúng');
-      return;    
-    }
-
-    if(email!=data.email) {
-      setError('Email không đúng');
-      return;    
-    }
-    
-    if(password!=data.password) {
-      setError('Mật khẩu không đúng');
-      return;    
-    }
-
-    try{
-      setData(data);
-      setLoading(true);
-      const response = axios.get('192.168.234.229:1999/auth/signup', {
-        username: name,
-        email: email,
-        password: password,
-      });
-      setData(response.data);
-      navigation.navigate('Home');
-    }
-    catch{
-      setError('Lỗi kết nối đến máy chủ');
-      return;
-    }
-    
+  const handleSubmit = async () => {
+    try {
+        const response = await axios.post('http://192.168.234.229:1999/auth/signin', {
+          username,
+          email,
+          password,
+        });
+        setData(response.data);
+        console.log('Đăng ký thành công:', response.data);
+        navigation.navigate('Login');
+      } catch (err) {
+        setError(err);
+        console.error('Có lỗi xảy ra:', err);
+      } finally {
+        setLoading(false);
+      }
   };
 
   useEffect(() => {
     
-    axios.get(' 192.168.234.229:1999/auth/signup')
+    axios.get(' 192.168.234.229:1999/auth/signin')
       .then(response => {
         setData(response.data);
         setLoading(false);
@@ -66,43 +45,36 @@ const Login = ({ navigation }) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-
   return (
     <View style={styles.container}>
       <View style={styles.loginBox}>
-        <Text style={styles.title}>Họ Tên</Text>
         <TextInput
           style={styles.input}
-          placeholder="Nhập name..."
-          value={name}
+          placeholder="Nhập họ tên"
+          value={username}
           onChangeText={(text) => setUsername(text)}
         />
 
-        <Text style={styles.title}>Email</Text>
         <TextInput
           style={styles.input}
-          placeholder="Nguyenvana@gmail.com"
-          secureTextEntry={true}
+          placeholder="Nhập email"
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
 
-        <Text style={styles.title}>Password</Text>
         <TextInput
           style={styles.input}
-          placeholder="Nhập password..."
+          placeholder="Nhập password"
           secureTextEntry={true}
           value={password}
           onChangeText={(text) => setPassword(text)}
-        />
-        <Button title="Đăng nhập" onPress={handleSubmit}/>
+        />       
+        <Button title="Đăng ký" onPress={handleSubmit} />
 
         <View style={styles.text_question}>
-            <Text style={styles.question}>Bạn chưa có tài khoản?</Text>
-            <Pressable
-              onPress={() => navigation.navigate('Register')}
-            >
-              <Text style={styles.anwser}>Đăng ký</Text>
+            <Text style={styles.question}>Bạn đã có tài khoản?</Text>
+            <Pressable onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.anwser}>Đăng nhập</Text>
             </Pressable>
             
         </View>
@@ -141,7 +113,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 5,
   },
-
   text_question: {
     flexDirection: 'row',
     marginBottom: 10,
@@ -161,4 +132,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Register;
